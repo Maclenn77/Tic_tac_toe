@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 puts 'Welcome to the game!'
 puts 'This game is designed for two players'
 puts 'Player one, what\'s your name?'
@@ -42,7 +40,6 @@ puts row
 puts separator
 puts row
 
-
 # If there's an invalid movement
 puts "That's value is invalid. Choose between 1-9"
 puts "That's value is invalid. Write a number"
@@ -52,7 +49,6 @@ puts "Oh! You can't move there. #{name_one} already played there."
 puts 'Try a different place.'
 puts "Oh! You can't move there. #{name_two} already played there."
 puts 'Try a different place.'
-
 
 # Final cases
 puts "#{name_one},  you won!"
