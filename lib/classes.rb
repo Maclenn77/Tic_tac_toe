@@ -9,8 +9,6 @@ class Player
 end
 
 class Match
-  # verify if we need to change to instance variable.
-
   SEPARATOR = '-----------------'.freeze
 
   def initialize
@@ -20,7 +18,7 @@ class Match
   end
 
   def who_is_first?(player_one, player_two)
-    value = %w[X T]
+    value = %w[X O]
     select = Random.new.rand(2)
     if select.zero?
       player_one.piece = value[0]
@@ -29,9 +27,6 @@ class Match
       player_one.piece = value[1]
       player_two.piece = value[0]
     end
-  end
-
-  def match_hash(hash)
   end
 
   # Why adding variables here displays the changes, but adding in the initialize method, doesn't work
@@ -59,8 +54,18 @@ class Match
     end
 
     @hash[move] = player.piece
-    puts "inside if #{player.piece}"
     display_board
+    puts "#{player.name} it's your turn"
+  end
+
+  def next_turn(player_one, player_two, move)
+    if (@turn += 1).odd?
+      place_move(move, player_one) if player_one.piece == 'X'
+      place_move(move, player_two) if player_two.piece == 'X'
+    else
+      place_move(move, player_one) if player_one.piece == 'O'
+      place_move(move, player_two) if player_two.piece == 'O'
+    end
   end
 
   # players = {'0' => Player_1, 'X' => Player_2}
