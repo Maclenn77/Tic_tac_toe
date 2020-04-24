@@ -16,6 +16,7 @@ class Match
   def initialize
     @result = 'draw'
     @hash = { 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 9 }
+    @turn = 0
   end
 
   def who_is_first?(player_one, player_two)
@@ -47,8 +48,8 @@ class Match
     condition_two = @hash.value? move
     verify = condition_one && condition_two
 
-# When we were trying @hash.value? move && (1..9).include? move, we got an error
-# Syntax error, unexpected tIDENTIFIER, expecting saying
+    # When we were trying @hash.value? move && (1..9).include? move, we got an error
+    # Syntax error, unexpected tIDENTIFIER, expecting saying
     until verify
       puts 'Write another number between 1 and 9'
       move = gets.chomp.to_i
@@ -61,4 +62,11 @@ class Match
     puts "inside if #{player.piece}"
     display_board
   end
+
+  # players = {'0' => Player_1, 'X' => Player_2}
+  # def next_turn(match)
+  #   if match.turn.even?
+  #     plays Playwe whiche Player.piece == 'X'
+  # else plays player which player.piece == 0
+  # end
 end
