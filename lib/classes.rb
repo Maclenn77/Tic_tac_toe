@@ -43,19 +43,22 @@ class Match
   end
 
   def place_move(move)
-    @hash[move] = 'hi'
+    if (1..9).include? move
+      @hash[move] = 'X' if @hash.value? move
+    else
+      loop do
+        puts 'Write another number between 1 and 9'
+        move = gets.chomp.to_i
+        if (1..9).include? move
+          if @hash.value? move
+            @hash[move] = 'X'
+            break
+          else
+            next
+          end
+        end
+      end
+    end
     display_board
   end
-
-=begin
-  def verify_move(move)
-    if move.is_a? Integer
-      if (1..9).include? move
-        display_board
-      end
-    else
-
-    end
-  end
-=end
 end
