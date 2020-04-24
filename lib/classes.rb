@@ -9,8 +9,9 @@ class Player
 end
 
 class Match
+  # verify if we need to change to instance variable.
   @@row = ['     |     |     ']
-  @@separator = '-----------------'
+  SEPARATOR = '-----------------'.freeze
 
   def initialize
     @result = 'draw'
@@ -34,9 +35,26 @@ class Match
 
   def display_board
     puts @row_one = [" #{@array[0][0]} | #{@array[0][1]} | #{@array[0][2]} "]
-    puts @@separator
+    puts SEPARATOR
     puts @row_two = [" #{@array[1][0]} | #{@array[1][1]} | #{@array[1][2]} "]
-    puts @@separator
+    puts SEPARATOR
     puts @row_three = [" #{@array[2][0]} | #{@array[2][1]} | #{@array[2][2]} "]
   end
+
+  def place_move
+    @array[0][0] = 'hi'
+    display_board
+  end
+
+=begin
+  def verify_move(move)
+    if move.is_a? Integer
+      if (1..9).include? move
+        display_board
+      end
+    else
+      
+    end
+  end
+=end
 end
