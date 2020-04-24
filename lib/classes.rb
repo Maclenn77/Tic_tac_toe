@@ -10,12 +10,12 @@ end
 
 class Match
   # verify if we need to change to instance variable.
-  @@row = ['     |     |     ']
+
   SEPARATOR = '-----------------'.freeze
 
   def initialize
     @result = 'draw'
-    @array = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+    @hash = { 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 9 }
   end
 
   def who_is_first?(player_one, player_two)
@@ -30,19 +30,20 @@ class Match
     end
   end
 
-  def match_array(array)
+  def match_hash(hash)
   end
 
+  # Why adding variables here displays the changes, but adding in the initialize method, doesn't work
   def display_board
-    puts @row_one = [" #{@array[0][0]} | #{@array[0][1]} | #{@array[0][2]} "]
+    puts @row_one = [" #{@hash[1]} | #{@hash[2]} | #{@hash[3]} "]
     puts SEPARATOR
-    puts @row_two = [" #{@array[1][0]} | #{@array[1][1]} | #{@array[1][2]} "]
+    puts @row_two = [" #{@hash[4]} | #{@hash[5]} | #{@hash[6]} "]
     puts SEPARATOR
-    puts @row_three = [" #{@array[2][0]} | #{@array[2][1]} | #{@array[2][2]} "]
+    puts @row_three = [" #{@hash[7]} | #{@hash[8]} | #{@hash[9]} "]
   end
 
-  def place_move
-    @array[0][0] = 'hi'
+  def place_move(move)
+    @hash[move] = 'hi'
     display_board
   end
 
@@ -53,7 +54,7 @@ class Match
         display_board
       end
     else
-      
+
     end
   end
 =end

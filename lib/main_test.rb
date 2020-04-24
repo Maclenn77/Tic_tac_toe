@@ -15,6 +15,5 @@ b.who_is_first?(first, second)
 puts "#{first.piece} , #{second.piece}"
 b.display_board
 puts 'first player moves'
-# move = gets.chomp
-# b.verify_move(move)
-b.place_move
+move = gets.chomp.to_i
+b.place_move(move)
