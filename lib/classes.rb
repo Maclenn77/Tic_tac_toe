@@ -43,24 +43,22 @@ class Match
   end
 
   def place_move(move, player)
-    if (1..9).include? move
-      @hash[move] = player.piece if @hash.value? move
-    else
-      loop do
-        puts 'Write another number between 1 and 9'
-        move = gets.chomp.to_i
-        if (1..9).include? move
-          if @hash.value? move
-            @hash[move] = player.piece
-            puts "inside if #{player.piece}"
-            break
-          else
-            puts 'before next'
-            next
-          end
-        end
-      end
+    condition_one = (1..9).include? move
+    condition_two = @hash.value? move
+    verify = condition_one && condition_two
+
+# When we were trying @hash.value? move && (1..9).include? move, we got an error
+# Syntax error, unexpected tIDENTIFIER, expecting saying
+    until verify
+      puts 'Write another number between 1 and 9'
+      move = gets.chomp.to_i
+      condition_one = (1..9).include? move
+      condition_two = @hash.value? move
+      verify = condition_one && condition_two
     end
+
+    @hash[move] = player.piece
+    puts "inside if #{player.piece}"
     display_board
   end
 end
