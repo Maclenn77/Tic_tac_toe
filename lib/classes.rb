@@ -19,7 +19,7 @@ class Match
   end
 
   def who_is_first?(player_one, player_two)
-    value = %w[X O]
+    value = %w[X T]
     select = Random.new.rand(2)
     if select.zero?
       player_one.piece = value[0]
@@ -42,18 +42,20 @@ class Match
     puts @row_three = [" #{@hash[7]} | #{@hash[8]} | #{@hash[9]} "]
   end
 
-  def place_move(move)
+  def place_move(move, player)
     if (1..9).include? move
-      @hash[move] = 'X' if @hash.value? move
+      @hash[move] = player.piece if @hash.value? move
     else
       loop do
         puts 'Write another number between 1 and 9'
         move = gets.chomp.to_i
         if (1..9).include? move
           if @hash.value? move
-            @hash[move] = 'X'
+            @hash[move] = player.piece
+            puts "inside if #{player.piece}"
             break
           else
+            puts 'before next'
             next
           end
         end

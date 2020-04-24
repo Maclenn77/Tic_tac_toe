@@ -16,4 +16,10 @@ puts "#{first.piece} , #{second.piece}"
 b.display_board
 puts 'first player moves'
 move = gets.chomp.to_i
-b.place_move(move)
+b.place_move(move, first)
+puts 'second player moves'
+move = gets.chomp.to_i
+b.place_move(move, second)
+puts 'first player moves'
+move = gets.chomp.to_i
+b.place_move(move, first)
