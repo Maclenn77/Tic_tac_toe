@@ -10,3 +10,4 @@ name = gets.chomp
 second = Player.new(name)
 
 puts "#{first.name} , #{second.name}"
+Match.new.who_is_first?
