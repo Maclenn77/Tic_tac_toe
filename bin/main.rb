@@ -2,22 +2,47 @@ hash = { 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 9 
 SEPARATOR = '-----------'.freeze
 
 def display_board(hash)
-  puts row_one = [" #{hash[1]} | #{hash[2]} | #{hash[3]} "]
+  puts [" #{hash[1]} | #{hash[2]} | #{hash[3]} "]
   puts SEPARATOR
-  puts row_two = [" #{hash[4]} | #{hash[5]} | #{hash[6]} "]
+  puts [" #{hash[4]} | #{hash[5]} | #{hash[6]} "]
   puts SEPARATOR
-  puts row_three = [" #{hash[7]} | #{hash[8]} | #{hash[9]} "]
+  puts [" #{hash[7]} | #{hash[8]} | #{hash[9]} "]
 end
 
-def place_move(move, player_one, player_two)
-  until ((1..9).include? move) && (@hash.value? move)
+def place_move(move, player_two, hash)
+  move = move
+  until ((1..9).include? move) && (hash.value? move)
+    puts 'Invalid move'
     puts 'Write another number between 1 and 9'
     move = gets.chomp.to_i
   end
 
-  @hash[move] = player_one.piece
-  display_board
-  puts "#{player_two.name} it's your turn"
+  hash[move] = 'X'
+  display_board(hash)
+  puts "#{player_two} it's your turn. Choose one number between 1 and 9."
+end
+
+# Loop
+def loop_game(name_one, name_two, hash)
+  count = 0
+
+  until count == 4
+    puts "#{name_one} it's your turn \n
+    Choose one number between 1 and 9."
+    move = gets.chomp
+    place_move(move, name_one, hash)
+    count += 1
+    move = gets.chomp
+    place_move(move, name_two, hash)
+    count += 1
+    display_board(hash)
+  end
+
+  conditions = { 1 => "#{name_one},  you won!", 2 => "#{name_two}, you won!", 3 => "It's a draw! Nobody won." }
+
+  result = Random.new.rand(1..3)
+
+  puts conditions[result]
 end
 
 puts "Welcome to the game! \n Player one, what\'s your name?"
@@ -36,28 +61,8 @@ Please write the index number to tell me where are you going to place your move.
 display_board(hash)
 
 puts 'Let\'s start!'
-puts "#{name_one} it's your turn \n
-Choose one number between 1 and 9."
-display_board(hash)
 
-puts "#{name_two} it's your turn \n
-Choose one number between 1 and 9."
-display_board(hash)
-
-# If there's an invalid movement
-puts "That's value is invalid. Choose between 1-9"
-puts "That's value is invalid. Write a number"
-
-# If one player moves in an occuped space
-puts "Oh! You can't move there. #{name_one} already played there."
-puts 'Try a different place.'
-puts "Oh! You can't move there. #{name_two} already played there."
-puts 'Try a different place.'
-
-# Final cases
-puts "#{name_one},  you won!"
-puts "#{name_two}, you won!"
-puts "It's a draw! Nobody won."
+loop_game(name_one, name_two, hash)
 
 puts 'This is the score'
 puts "#{name_one}: games_won"
