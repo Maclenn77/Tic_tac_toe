@@ -39,7 +39,6 @@ class Match
   end
 
   def place_move(move, player)
-
     until ((1..9).include? move) && (@hash.value? move)
       puts 'Write another number between 1 and 9'
       move = gets.chomp.to_i
@@ -58,6 +57,12 @@ class Match
       place_move(move, player_one) if player_one.piece == 'O'
       place_move(move, player_two) if player_two.piece == 'O'
     end
+  end
+
+  def check_winner(player)
+    winner = false
+    winner_cases.each { |cases| winner = true if cases.all? == player.piece }
+    winner
   end
 
   # players = {'0' => Player_1, 'X' => Player_2}
