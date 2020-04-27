@@ -26,13 +26,14 @@ class Match
     if select.zero?
       player_one.piece = value[0]
       player_two.piece = value[1]
+      player_one.name
     else
       player_one.piece = value[1]
       player_two.piece = value[0]
+      player_two.name
     end
   end
 
-  # Why adding variables here displays the changes, but adding in the initialize method, doesn't work
   def display_board
     puts @row_one = [" #{@hash[1]} | #{@hash[2]} | #{@hash[3]} "]
     puts SEPARATOR
@@ -66,6 +67,7 @@ class Match
       check_winner(player_turn) if @turn >= 5
     end
     puts 'It\'s a draw'
+    keep_playing?
   end
 
   def check_winner(player)
@@ -77,5 +79,27 @@ class Match
     winner_cases.each { |cases| winner = true if cases.all?(player.piece) }
     puts "You won" if winner
     exit if winner
+  end
+
+  def keep_playing?
+    condition = false
+    puts 'Would you like to play a new match? Write \'yes\' to continue or \'no\' to exit.'
+    choice = gets.chomp
+    until condition
+      if /yes|YES|Yes/ =~ choice
+        condition = true
+        restart_match
+      elsif /no|NO|No/ =~ choice
+        puts 'See you later!'
+        exit
+      else
+        puts 'Please write a valid option.'
+        choice = gets.chomp
+      end
+    end
+  end
+
+  def restart_match
+    puts 'new match'
   end
 end

@@ -11,10 +11,11 @@ second = Player.new(name)
 
 puts "#{first.name} , #{second.name}"
 match_name = Match.new
-match_name.who_is_first?(first, second)
-puts "#{first.piece} , #{second.piece}"
-match_name.display_board
+x = match_name.who_is_first?(first, second)
+puts "#{x} is going to start"
+# puts "#{first.piece} , #{second.piece}"
 
-puts 'first player moves'
+puts "#{x} make your move"
+match_name.display_board
 move = gets.chomp.to_i
 match_name.next_turn(move, first, second)
