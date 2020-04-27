@@ -6,6 +6,10 @@ class Player
     @score = score
     @piece = piece
   end
+
+  def score
+    
+  end
 end
 
 class Match
