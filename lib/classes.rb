@@ -1,27 +1,29 @@
 class Player
   attr_reader :name
   attr_accessor :piece
+  attr_accessor :score
   def initialize(name, piece = ' ', score = 0)
     @name = name
     @score = score
     @piece = piece
   end
 
-  def score
-    
+  def change_score
+    @score += 1
   end
 end
 
 class Match
   SEPARATOR = '-----------------'.freeze
+  @@matches = -1
 
   def initialize
-    @result = 'draw'
     @hash = { 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 9 }
     @turn = 0
     @row_one = []
     @row_two = []
     @row_three = []
+    @@matches += 1
   end
 
   def who_is_first?(player_one, player_two)
@@ -86,6 +88,7 @@ class Match
     winner_cases.each { |cases| winner = true if cases.all?(player_turn.piece) }
     if winner
       puts "#{player_turn.name}, you won"
+      player_turn.change_score
       keep_playing?(player_turn, player_next)
     end
     winner
@@ -101,6 +104,7 @@ class Match
         restart_match(player_one, player_two)
       elsif /no|NO|No/ =~ choice
         puts 'See you later!'
+        total_score(player_one, player_two)
         exit
       else
         puts 'Please write a valid option.'
@@ -109,7 +113,14 @@ class Match
     end
   end
 
+  def total_score(player_one, player_two)
+    puts "Total matches: #{@@matches} Total Score:\n
+          #{player_one.name}: #{player_one.score}\n
+          #{player_two.name}: #{player_two.score}"
+  end
+
   def restart_match(player_one, player_two)
+    total_score(player_one, player_two)
     puts "Let's play again!"
     match = Match.new
     x = match.who_is_first?(player_one, player_two)
