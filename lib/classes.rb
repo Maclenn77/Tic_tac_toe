@@ -65,6 +65,7 @@ class Match
       end
       place_move(args[0], player_turn, player_next)
       check_winner(player_turn) if @turn >= 5
+      keep_playing? if check_winner(player_turn)
     end
     puts 'It\'s a draw'
     keep_playing?
@@ -78,7 +79,7 @@ class Match
                     [@hash[4], @hash[5], @hash[6]], [@hash[7], @hash[8], @hash[9]]]
     winner_cases.each { |cases| winner = true if cases.all?(player.piece) }
     puts "#{player.name}, you won" if winner
-    keep_playing?
+    winner
   end
 
   def keep_playing?
@@ -88,7 +89,7 @@ class Match
     until condition
       if /yes|YES|Yes/ =~ choice
         condition = true
-        next
+        restart_match
       elsif /no|NO|No/ =~ choice
         puts 'See you later!'
         exit
@@ -99,7 +100,8 @@ class Match
     end
   end
 
-  def restart_match(match)
-    match = Match.new
+  def restart_match
+    puts "Let's play again!"
+    @turn = 9
   end
 end

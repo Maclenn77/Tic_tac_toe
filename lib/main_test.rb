@@ -2,7 +2,6 @@ require_relative 'classes'
 puts 'Welcome'
 
 def game(first, second)
-  loop do
     match = Match.new
     x = match.who_is_first?(first, second)
     puts "#{x} is going to start"
@@ -12,7 +11,7 @@ def game(first, second)
     match.display_board
     move = gets.chomp.to_i
     match.next_turn(move, first, second)
-  end
+    game(first, second)
 end
 
 puts 'players name'
