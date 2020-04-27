@@ -77,8 +77,8 @@ class Match
                     [@hash[3], @hash[6], @hash[9]], [@hash[3], @hash[5], @hash[7]],
                     [@hash[4], @hash[5], @hash[6]], [@hash[7], @hash[8], @hash[9]]]
     winner_cases.each { |cases| winner = true if cases.all?(player.piece) }
-    puts "You won" if winner
-    exit if winner
+    puts "#{player.name}, you won" if winner
+    keep_playing?
   end
 
   def keep_playing?
@@ -88,7 +88,7 @@ class Match
     until condition
       if /yes|YES|Yes/ =~ choice
         condition = true
-        restart_match
+        next
       elsif /no|NO|No/ =~ choice
         puts 'See you later!'
         exit
@@ -99,7 +99,7 @@ class Match
     end
   end
 
-  def restart_match
-    puts 'new match'
+  def restart_match(match)
+    match = Match.new
   end
 end
