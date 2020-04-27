@@ -63,14 +63,19 @@ class Match
         player_next = args[1..-1].detect { |a| a.piece == 'X' }
       end
       place_move(args[0], player_turn, player_next)
-      check_winner(player_turn) if @turn < 5
+      check_winner(player_turn) if @turn >= 5
     end
     puts 'It\'s a draw'
   end
 
   def check_winner(player)
     winner = false
-    winner_cases.each { |cases| winner = true if cases.all? == player.piece }
-    winner
+    winner_cases = [[@hash[1], @hash[2], @hash[3]], [@hash[1], @hash[4], @hash[7]],
+                    [@hash[1], @hash[5], @hash[9]], [@hash[2], @hash[5], @hash[8]],
+                    [@hash[3], @hash[6], @hash[9]], [@hash[3], @hash[5], @hash[7]],
+                    [@hash[4], @hash[5], @hash[6]], [@hash[7], @hash[8], @hash[9]]]
+    winner_cases.each { |cases| winner = true if cases.all?(player.piece) }
+    puts "You won" if winner
+    exit if winner
   end
 end
