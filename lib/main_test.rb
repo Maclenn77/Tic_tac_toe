@@ -17,4 +17,4 @@ match_name.display_board
 
 puts 'first player moves'
 move = gets.chomp.to_i
-match_name.next_turn(first, second, move)
+match_name.next_turn(move, first, second)

@@ -15,6 +15,9 @@ class Match
     @result = 'draw'
     @hash = { 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 9 }
     @turn = 0
+    @row_one = []
+    @row_two = []
+    @row_three = []
   end
 
   def who_is_first?(player_one, player_two)
@@ -38,25 +41,31 @@ class Match
     puts @row_three = [" #{@hash[7]} | #{@hash[8]} | #{@hash[9]} "]
   end
 
-  def place_move(move, player)
+  def place_move(move, player_one, player_two)
     until ((1..9).include? move) && (@hash.value? move)
       puts 'Write another number between 1 and 9'
       move = gets.chomp.to_i
     end
 
-    @hash[move] = player.piece
+    @hash[move] = player_one.piece
     display_board
-    puts "#{player.name} it's your turn"
+    puts "#{player_two.name} it's your turn"
   end
 
-  def next_turn(player_one, player_two, move)
-    if (@turn += 1).odd?
-      place_move(move, player_one) if player_one.piece == 'X'
-      place_move(move, player_two) if player_two.piece == 'X'
-    else
-      place_move(move, player_one) if player_one.piece == 'O'
-      place_move(move, player_two) if player_two.piece == 'O'
+  def next_turn(*args)
+    while @turn < 9
+      @turn += 1
+      if @turn.odd?
+        player_turn = args[1..-1].detect { |a| a.piece == 'X' }
+        player_next = args[1..-1].detect { |a| a.piece == 'O' }
+      else
+        player_turn = args[1..-1].detect { |a| a.piece == 'O' }
+        player_next = args[1..-1].detect { |a| a.piece == 'X' }
+      end
+      place_move(args[0], player_turn, player_next)
+      check_winner(player_turn) if @turn < 5
     end
+    puts 'It\'s a draw'
   end
 
   def check_winner(player)
@@ -64,11 +73,4 @@ class Match
     winner_cases.each { |cases| winner = true if cases.all? == player.piece }
     winner
   end
-
-  # players = {'0' => Player_1, 'X' => Player_2}
-  # def next_turn(match)
-  #   if match.turn.even?
-  #     plays Playwe whiche Player.piece == 'X'
-  # else plays player which player.piece == 0
-  # end
 end
