@@ -39,18 +39,10 @@ class Match
   end
 
   def place_move(move, player)
-    condition_one = (1..9).include? move
-    condition_two = @hash.value? move
-    verify = condition_one && condition_two
 
-    # When we were trying @hash.value? move && (1..9).include? move, we got an error
-    # Syntax error, unexpected tIDENTIFIER, expecting saying
-    until verify
+    until ((1..9).include? move) && (@hash.value? move)
       puts 'Write another number between 1 and 9'
       move = gets.chomp.to_i
-      condition_one = (1..9).include? move
-      condition_two = @hash.value? move
-      verify = condition_one && condition_two
     end
 
     @hash[move] = player.piece
