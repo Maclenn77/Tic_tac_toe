@@ -5,7 +5,7 @@ puts_hash = {
   'play_again' => -> { puts 'Would you like to play a new match? Write (y)es to continue or (n)o to exit.' },
   'exit_match' => -> { puts 'See you later!' },
   'valid_op' => -> { puts 'Please write a valid option.' },
-  'first_move' => proc { |first| puts "#{first} is going to start.\n #{first}, start playing!" },
+  'first_move' => proc { |first| puts "#{first}, start playing!" },
   'another_num' => -> { puts 'Write a number between 1 and 9 or \'exit\' to leave.' },
   'your_turn' => ->(player) { puts "#{player} it's your turn" },
   'you_won' => ->(player) { puts "#{player}, you won!" },
@@ -19,7 +19,6 @@ board_hash = {
   'separator' => ->(separator) { puts separator.to_s }
 }
 
-match = Match.new
 puts "Welcome to the game! \n Player one, what\'s your name?"
 name_one = gets.chomp
 first = Player.new(name_one)
@@ -29,5 +28,5 @@ puts 'Player two, what\'s your name?'
 name_two = gets.chomp
 second = Player.new(name_two)
 puts "#{name_two}, welcome aboard!"
-
+match = Match.new
 match.restart_match(first, second, puts_hash, board_hash)

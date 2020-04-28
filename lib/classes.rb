@@ -14,13 +14,12 @@ class Player
 end
 
 class Match
-  SEPARATOR = '------------'.freeze
-  @@matches = -1
+  SEPARATOR = '----------'.freeze
 
-  def initialize
+  def initialize(matches = 0)
     @hash = { 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 9 }
     @turn = 0
-    @@matches += 1
+    @matches = matches
   end
 
   def who_is_first?(player_one, player_two)
@@ -110,18 +109,19 @@ class Match
     end
   end
 
-  def total_score(player_one, player_two)
-    puts "Total matches: #{@@matches} Total Score:\n
+  def total_score(player_one, player_two, matches)
+    puts "Total matches: #{matches} Total Score:\n
           #{player_one.name}: #{player_one.score}\n
           #{player_two.name}: #{player_two.score}"
   end
 
   def restart_match(player_one, player_two, puts_hash, board_hash)
-    if @@matches.positive?
-      total_score(player_one, player_two)
+    if @matches.positive?
+      total_score(player_one, player_two, @matches)
       puts_hash['yes_play'].call
     end
-    match = Match.new
+    matches = @matches + 1
+    match = Match.new(matches)
     first = match.who_is_first?(player_one, player_two)
     puts_hash['first_move'].call(first)
     match.display_board(board_hash)
