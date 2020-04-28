@@ -70,12 +70,10 @@ class Match
         player_turn = args[1..-1].detect { |a| a.piece == 'O' }
         player_next = args[1..-1].detect { |a| a.piece == 'X' }
       end
-      puts "value turn #{@turn}"
       place_move(args[0], player_turn, player_next)
       check_winner(player_turn, player_next) if @turn >= 5
-      # keep_playing? if check_winner(player_turn)
     end
-    puts 'It\'s a draw'
+    puts 'It\'s a draw.'
     keep_playing?(player_turn, player_next)
   end
 
