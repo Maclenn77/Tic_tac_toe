@@ -1,6 +1,14 @@
 # Tic_tac_toe
 Microverse's Project. This is a Tic Tac Toe game
 
+
+## What is Tic Tac Toe?
+
+Description of the game taken from [Wikipedia](https://en.wikipedia.org/wiki/Tic-tac-toe)
+"Is a paper-and-pencil game for two players, X and O, who take turns marking the spaces in a 3×3 grid. 
+The player who succeeds in placing three of their marks in a horizontal, vertical, or diagonal row is the winner."
+
+
 ## Game's Instructions
 
 - Tic Tac Toe is two players game.
@@ -14,11 +22,25 @@ need to select again.
 - You can select restart a match or exit the game.
 - After winning a match, the player receive a point.
 
+## How to run the game
+
+- First you need to install Ruby Language, here is a helpfull [tutorial](https://www.theodinproject.com/courses/ruby-programming/lessons/installing-ruby-ruby-programming) from The Odin Project for that.
+- 
+
 ## Built With
 
 - Ruby,
 - Visual Code,
 - Atom
+
+## Features
+- Takes the name of each player.
+- The game randomly choices the player who is going to start.
+- Shows the game board.
+- The player can see the selected move placed on the board.
+- The player can exit the game during the match.
+- The game saves a score for each player counting the won matches.
+- It is possible to start another match at the end of the game.
 
 ## Getting Started
 
@@ -28,7 +50,6 @@ To get a local copy up and running follow these simple example steps.
 - OS: MacOS, Ubuntu or a Virtual Machine
 - Code editor.
 - Have Ruby installed.
-
 
 ## Authors
 
