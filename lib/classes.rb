@@ -70,7 +70,7 @@ class Match
       end
       place_move(player_turn, puts_hash, board_hash)
       check_winner(player_turn, player_next, puts_hash, board_hash) if @turn >= 5
-      puts_hash['your_turn'].call(player_next.name)
+      puts_hash['your_turn'].call(player_next.name) if @turn < 9
     end
     puts_hash['draw'].call
     keep_playing?(player_turn, player_next, puts_hash, board_hash)
