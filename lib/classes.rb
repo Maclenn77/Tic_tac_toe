@@ -48,15 +48,15 @@ class Match
     puts @row_three = [" #{@hash[7]} | #{@hash[8]} | #{@hash[9]} "]
   end
 
-  def place_move(move, player_one, player_two)
+  def place_move(move, player_one, player_two, puts_hash)
     until ((1..9).include? move) && (@hash.value? move)
-      puts 'Write another number between 1 and 9'
+      puts_hash['another_num'].call
       move = gets.chomp.to_i
     end
 
     @hash[move] = player_one.piece
     display_board
-    puts "#{player_two.name} it's your turn"
+    puts_hash['your_turn'].call(player_two.name)
   end
 
   def next_turn(*args, puts_hash)
@@ -70,10 +70,9 @@ class Match
         player_turn = args[1..-1].detect { |a| a.piece == 'O' }
         player_next = args[1..-1].detect { |a| a.piece == 'X' }
       end
-      place_move(args[0], player_turn, player_next)
+      place_move(args[0], player_turn, player_next, puts_hash)
       check_winner(player_turn, player_next, puts_hash) if @turn >= 5
     end
-    # puts 'It\'s a draw'
     puts_hash['draw'].call
     keep_playing?(player_turn, player_next, puts_hash)
   end
@@ -86,7 +85,7 @@ class Match
                     [@hash[4], @hash[5], @hash[6]], [@hash[7], @hash[8], @hash[9]]]
     winner_cases.each { |cases| winner = true if cases.all?(player_turn.piece) }
     if winner
-      puts "#{player_turn.name}, you won"
+      puts_hash['you_won'].call(player_turn.name)
       player_turn.change_score
       keep_playing?(player_turn, player_next, puts_hash)
     end
@@ -96,18 +95,17 @@ class Match
   def keep_playing?(player_one, player_two, puts_hash)
     condition = false
     puts_hash['play_again'].call
-    # puts 'Would you like to play a new match? Write \'yes\' to continue or \'no\' to exit.'
     choice = gets.chomp
     until condition
       if /yes|YES|Yes/ =~ choice
         condition = true
         restart_match(player_one, player_two, puts_hash)
       elsif /no|NO|No/ =~ choice
-        puts 'See you later!'
+        puts_hash['exit_match'].call
         total_score(player_one, player_two)
         exit
       else
-        puts 'Please write a valid option.'
+        puts_hash['valid_op']
         choice = gets.chomp
       end
     end

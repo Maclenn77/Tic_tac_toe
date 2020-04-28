@@ -2,7 +2,12 @@ require_relative 'classes'
 puts_hash = {
   'draw' => -> { puts 'It\'s a draw' },
   'play_again' => -> { puts 'Would you like to play a new match? Write \'yes\' to continue or \'no\' to exit.' },
-  'first_move' => proc { |first| puts "#{first} is going to start.\n #{first}, start playing!"},
+  'exit_match' => -> { puts 'See you later!' },
+  'valid_op' => -> { puts 'Please write a valid option.' },
+  'first_move' => proc { |first| puts "#{first} is going to start.\n #{first}, start playing!" },
+  'another_num' => -> { puts 'Write a number between 1 and 9' },
+  'your_turn' => ->(player) { puts "#{player} it's your turn" },
+  'you_won' => ->(player) { puts "#{player}, you won!" }
 }
 
 match = Match.new
