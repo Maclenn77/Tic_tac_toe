@@ -2,7 +2,7 @@
 require_relative '../lib/classes'
 puts_hash = {
   'draw' => -> { puts 'It\'s a draw' },
-  'play_again' => -> { puts 'Would you like to play a new match? Write \'yes\' to continue or \'no\' to exit.' },
+  'play_again' => -> { puts 'Would you like to play a new match? Write (y)es to continue or (n)o to exit.' },
   'exit_match' => -> { puts 'See you later!' },
   'valid_op' => -> { puts 'Please write a valid option.' },
   'first_move' => proc { |first| puts "#{first} is going to start.\n #{first}, start playing!" },
@@ -31,4 +31,3 @@ second = Player.new(name_two)
 puts "#{name_two}, welcome aboard!"
 
 match.restart_match(first, second, puts_hash, board_hash)
-

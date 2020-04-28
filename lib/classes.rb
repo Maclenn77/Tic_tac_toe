@@ -96,15 +96,15 @@ class Match
     puts_hash['play_again'].call
     choice = gets.chomp
     until condition
-      if /yes|YES|Yes/ =~ choice
+      if choice == 'y'
         condition = true
         restart_match(player_one, player_two, puts_hash, board_hash)
-      elsif /no|NO|No/ =~ choice
+      elsif choice == 'n'
         puts_hash['exit_match'].call
         total_score(player_one, player_two)
         exit
       else
-        puts_hash['valid_op']
+        puts_hash['valid_op'].call
         choice = gets.chomp
       end
     end
