@@ -20,9 +20,6 @@ class Match
   def initialize
     @hash = { 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 9 }
     @turn = 0
-    @row_one = []
-    @row_two = []
-    @row_three = []
     @@matches += 1
   end
 
@@ -40,44 +37,46 @@ class Match
     end
   end
 
-  def display_board
-    puts @row_one = " #{@hash[1]} | #{@hash[2]} | #{@hash[3]} "
-    puts SEPARATOR
-    puts @row_two = " #{@hash[4]} | #{@hash[5]} | #{@hash[6]} "
-    puts SEPARATOR
-    puts @row_three = " #{@hash[7]} | #{@hash[8]} | #{@hash[9]} "
+  def display_board(board_hash)
+    board_hash['row_one'].call(@hash)
+    board_hash['separator'].call(SEPARATOR)
+    board_hash['row_two'].call(@hash)
+    board_hash['separator'].call(SEPARATOR)
+    board_hash['row_three'].call(@hash)
   end
 
-  def place_move(move, player_one, puts_hash)
+  def place_move(player_one, puts_hash, board_hash)
+    move = 0
     until ((1..9).include? move) && (@hash.value? move)
       puts_hash['another_num'].call
       move = gets.chomp
       exit if move == 'exit'
+      move = move.to_i
     end
-    @hash[move.to_i] = player_one.piece
-    display_board
+    @hash[move] = player_one.piece
+    display_board(board_hash)
   end
 
-  def next_turn(*args, puts_hash)
+  def next_turn(*args, puts_hash, board_hash)
     @turn = 0
     while @turn < 9
       @turn += 1
       if @turn.odd?
-        player_turn = args[1..-1].detect { |a| a.piece == 'X' }
-        player_next = args[1..-1].detect { |a| a.piece == 'O' }
+        player_turn = args[0..-1].detect { |a| a.piece == 'X' }
+        player_next = args[0..-1].detect { |a| a.piece == 'O' }
       else
-        player_turn = args[1..-1].detect { |a| a.piece == 'O' }
-        player_next = args[1..-1].detect { |a| a.piece == 'X' }
+        player_turn = args[0..-1].detect { |a| a.piece == 'O' }
+        player_next = args[0..-1].detect { |a| a.piece == 'X' }
       end
-      place_move(args[0], player_turn, puts_hash)
-      check_winner(player_turn, player_next, puts_hash) if @turn >= 5
+      place_move(player_turn, puts_hash, board_hash)
+      check_winner(player_turn, player_next, puts_hash, board_hash) if @turn >= 5
       puts_hash['your_turn'].call(player_next.name)
     end
     puts_hash['draw'].call
-    keep_playing?(player_turn, player_next, puts_hash)
+    keep_playing?(player_turn, player_next, puts_hash, board_hash)
   end
 
-  def check_winner(player_turn, player_next, puts_hash)
+  def check_winner(player_turn, player_next, puts_hash, board_hash)
     winner = false
     winner_cases = [[@hash[1], @hash[2], @hash[3]], [@hash[1], @hash[4], @hash[7]],
                     [@hash[1], @hash[5], @hash[9]], [@hash[2], @hash[5], @hash[8]],
@@ -87,19 +86,19 @@ class Match
     if winner
       puts_hash['you_won'].call(player_turn.name)
       player_turn.change_score
-      keep_playing?(player_turn, player_next, puts_hash)
+      keep_playing?(player_turn, player_next, puts_hash, board_hash)
     end
     winner
   end
 
-  def keep_playing?(player_one, player_two, puts_hash)
+  def keep_playing?(player_one, player_two, puts_hash, board_hash)
     condition = false
     puts_hash['play_again'].call
     choice = gets.chomp
     until condition
       if /yes|YES|Yes/ =~ choice
         condition = true
-        restart_match(player_one, player_two, puts_hash)
+        restart_match(player_one, player_two, puts_hash, board_hash)
       elsif /no|NO|No/ =~ choice
         puts_hash['exit_match'].call
         total_score(player_one, player_two)
@@ -117,7 +116,7 @@ class Match
           #{player_two.name}: #{player_two.score}"
   end
 
-  def restart_match(player_one, player_two, puts_hash)
+  def restart_match(player_one, player_two, puts_hash, board_hash)
     if @@matches.positive?
       total_score(player_one, player_two)
       puts_hash['yes_play'].call
@@ -125,8 +124,7 @@ class Match
     match = Match.new
     first = match.who_is_first?(player_one, player_two)
     puts_hash['first_move'].call(first)
-    match.display_board
-    move = gets.chomp.to_i
-    match.next_turn(move, player_one, player_two, puts_hash)
+    match.display_board(board_hash)
+    match.next_turn(player_one, player_two, puts_hash, board_hash)
   end
 end
