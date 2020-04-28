@@ -1,15 +1,27 @@
 require_relative 'classes'
-puts 'Welcome'
+puts_hash = {
+  'draw' => -> { puts 'Its a draw' },
+  'play_again' => -> { puts 'Would you like to play a new match? Write \'yes\' to continue or \'no\' to exit.' } 
+}
 
 match = Match.new
-puts 'players name'
-name = 'Bob'
-first = Player.new(name)
+puts "Welcome to the game! \n Player one, what\'s your name?"
+# name_one = gets.chomp
+name_one = 'Bob'
+first = Player.new(name_one)
+puts "#{name_one} welcome aboard!"
 
-puts 'second players name'
-name = 'Jerry'
-second = Player.new(name)
+puts 'Player two, what\'s your name?'
+# name_two = gets.chomp
+name_two = 'Jerry'
+second = Player.new(name_two)
+puts "#{name_two} welcome aboard!"
 
-puts "#{first.name} , #{second.name}"
+# puts "#{name_one} would be the X and will make the first move"
+# puts "#{name_two} would be the O and will make the second move"
+# puts "This is the board of the game, \n
+# each square has an number index and it starts at 1 and ends at 9. \n
+# Please write the index number to tell me where are you going to place your move."
+# puts "Let\'s start! \n"
 
-match.restart_match(first, second)
+match.restart_match(first, second, puts_hash)

@@ -59,7 +59,7 @@ class Match
     puts "#{player_two.name} it's your turn"
   end
 
-  def next_turn(*args)
+  def next_turn(*args, puts_hash)
     @turn = 0
     while @turn < 9
       @turn += 1
@@ -73,8 +73,9 @@ class Match
       place_move(args[0], player_turn, player_next)
       check_winner(player_turn, player_next) if @turn >= 5
     end
-    puts 'It\'s a draw.'
-    keep_playing?(player_turn, player_next)
+    # puts 'It\'s a draw'
+    puts_hash['draw'].call
+    keep_playing?(player_turn, player_next, puts_hash)
   end
 
   def check_winner(player_turn, player_next)
@@ -87,19 +88,20 @@ class Match
     if winner
       puts "#{player_turn.name}, you won"
       player_turn.change_score
-      keep_playing?(player_turn, player_next)
+      keep_playing?(player_turn, player_next, puts_hash)
     end
     winner
   end
 
-  def keep_playing?(player_one, player_two)
+  def keep_playing?(player_one, player_two, puts_hash)
     condition = false
-    puts 'Would you like to play a new match? Write \'yes\' to continue or \'no\' to exit.'
+    puts_hash['play_again'].call
+    # puts 'Would you like to play a new match? Write \'yes\' to continue or \'no\' to exit.'
     choice = gets.chomp
     until condition
       if /yes|YES|Yes/ =~ choice
         condition = true
-        restart_match(player_one, player_two)
+        restart_match(player_one, player_two, puts_hash)
       elsif /no|NO|No/ =~ choice
         puts 'See you later!'
         total_score(player_one, player_two)
@@ -117,7 +119,7 @@ class Match
           #{player_two.name}: #{player_two.score}"
   end
 
-  def restart_match(player_one, player_two)
+  def restart_match(player_one, player_two, puts_hash)
     total_score(player_one, player_two)
     puts "Let's play again!"
     match = Match.new
@@ -126,6 +128,6 @@ class Match
     puts "#{x} make your move"
     match.display_board
     move = gets.chomp.to_i
-    match.next_turn(move, player_one, player_two)
+    match.next_turn(move, player_one, player_two, puts_hash)
   end
 end
