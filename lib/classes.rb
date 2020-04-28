@@ -71,14 +71,14 @@ class Match
         player_next = args[1..-1].detect { |a| a.piece == 'X' }
       end
       place_move(args[0], player_turn, player_next)
-      check_winner(player_turn, player_next) if @turn >= 5
+      check_winner(player_turn, player_next, puts_hash) if @turn >= 5
     end
     # puts 'It\'s a draw'
     puts_hash['draw'].call
     keep_playing?(player_turn, player_next, puts_hash)
   end
 
-  def check_winner(player_turn, player_next)
+  def check_winner(player_turn, player_next, puts_hash)
     winner = false
     winner_cases = [[@hash[1], @hash[2], @hash[3]], [@hash[1], @hash[4], @hash[7]],
                     [@hash[1], @hash[5], @hash[9]], [@hash[2], @hash[5], @hash[8]],
@@ -120,12 +120,13 @@ class Match
   end
 
   def restart_match(player_one, player_two, puts_hash)
-    total_score(player_one, player_two)
-    puts "Let's play again!"
+    if @@matches.positive?
+      total_score(player_one, player_two)
+      puts "Let's play again!"
+    end
     match = Match.new
-    x = match.who_is_first?(player_one, player_two)
-    puts "#{x} is going to start"
-    puts "#{x} make your move"
+    first = match.who_is_first?(player_one, player_two)
+    puts_hash['first_move'].call(first)
     match.display_board
     move = gets.chomp.to_i
     match.next_turn(move, player_one, player_two, puts_hash)

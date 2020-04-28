@@ -1,21 +1,20 @@
 require_relative 'classes'
 puts_hash = {
-  'draw' => -> { puts 'Its a draw' },
-  'play_again' => -> { puts 'Would you like to play a new match? Write \'yes\' to continue or \'no\' to exit.' } 
+  'draw' => -> { puts 'It\'s a draw' },
+  'play_again' => -> { puts 'Would you like to play a new match? Write \'yes\' to continue or \'no\' to exit.' },
+  'first_move' => proc { |first| puts "#{first} is going to start.\n #{first}, start playing!"},
 }
 
 match = Match.new
 puts "Welcome to the game! \n Player one, what\'s your name?"
-# name_one = gets.chomp
-name_one = 'Bob'
+name_one = gets.chomp
 first = Player.new(name_one)
-puts "#{name_one} welcome aboard!"
+puts "#{name_one}, welcome aboard!"
 
 puts 'Player two, what\'s your name?'
-# name_two = gets.chomp
-name_two = 'Jerry'
+name_two = gets.chomp
 second = Player.new(name_two)
-puts "#{name_two} welcome aboard!"
+puts "#{name_two}, welcome aboard!"
 
 # puts "#{name_one} would be the X and will make the first move"
 # puts "#{name_two} would be the O and will make the second move"
