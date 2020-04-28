@@ -7,7 +7,8 @@ puts_hash = {
   'first_move' => proc { |first| puts "#{first} is going to start.\n #{first}, start playing!" },
   'another_num' => -> { puts 'Write a number between 1 and 9' },
   'your_turn' => ->(player) { puts "#{player} it's your turn" },
-  'you_won' => ->(player) { puts "#{player}, you won!" }
+  'you_won' => ->(player) { puts "#{player}, you won!" },
+  'yes_play' => -> { puts "Let's play again!" }
 }
 
 match = Match.new

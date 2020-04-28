@@ -14,7 +14,7 @@ class Player
 end
 
 class Match
-  SEPARATOR = '-----------------'.freeze
+  SEPARATOR = '------------'.freeze
   @@matches = -1
 
   def initialize
@@ -41,22 +41,21 @@ class Match
   end
 
   def display_board
-    puts @row_one = [" #{@hash[1]} | #{@hash[2]} | #{@hash[3]} "]
+    puts @row_one = " #{@hash[1]} | #{@hash[2]} | #{@hash[3]} "
     puts SEPARATOR
-    puts @row_two = [" #{@hash[4]} | #{@hash[5]} | #{@hash[6]} "]
+    puts @row_two = " #{@hash[4]} | #{@hash[5]} | #{@hash[6]} "
     puts SEPARATOR
-    puts @row_three = [" #{@hash[7]} | #{@hash[8]} | #{@hash[9]} "]
+    puts @row_three = " #{@hash[7]} | #{@hash[8]} | #{@hash[9]} "
   end
 
-  def place_move(move, player_one, player_two, puts_hash)
+  def place_move(move, player_one, puts_hash)
     until ((1..9).include? move) && (@hash.value? move)
       puts_hash['another_num'].call
-      move = gets.chomp.to_i
+      move = gets.chomp
+      exit if move == 'exit'
     end
-
-    @hash[move] = player_one.piece
+    @hash[move.to_i] = player_one.piece
     display_board
-    puts_hash['your_turn'].call(player_two.name)
   end
 
   def next_turn(*args, puts_hash)
@@ -70,8 +69,9 @@ class Match
         player_turn = args[1..-1].detect { |a| a.piece == 'O' }
         player_next = args[1..-1].detect { |a| a.piece == 'X' }
       end
-      place_move(args[0], player_turn, player_next, puts_hash)
+      place_move(args[0], player_turn, puts_hash)
       check_winner(player_turn, player_next, puts_hash) if @turn >= 5
+      puts_hash['your_turn'].call(player_next.name)
     end
     puts_hash['draw'].call
     keep_playing?(player_turn, player_next, puts_hash)
@@ -120,7 +120,7 @@ class Match
   def restart_match(player_one, player_two, puts_hash)
     if @@matches.positive?
       total_score(player_one, player_two)
-      puts "Let's play again!"
+      puts_hash['yes_play'].call
     end
     match = Match.new
     first = match.who_is_first?(player_one, player_two)
