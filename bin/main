@@ -25,24 +25,23 @@ end
 
 # Loop
 def loop_game(name_one, name_two, hash)
-  count = 0
-
-  until count == 4
+  # This method has the work of executing the different methods that are required for the game functionality.
+  # It would be call a method that it's going to verify if there is a winner after the fifth move or if it's a draw.
+  # Once the loop ends the game restart and ask the players if they want to play another match or if they want to exit.
+  win = false
+  draw = false
+  until win || draw
     puts "#{name_one} it's your turn \n
     Choose one number between 1 and 9."
     move = gets.chomp
     place_move(move, name_one, hash)
-    count += 1
     move = gets.chomp
     place_move(move, name_two, hash)
-    count += 1
     display_board(hash)
+    draw = true
   end
-
   conditions = { 1 => "#{name_one},  you won!", 2 => "#{name_two}, you won!", 3 => "It's a draw! Nobody won." }
-
   result = Random.new.rand(1..3)
-
   puts conditions[result]
 end
 
