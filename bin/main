@@ -41,11 +41,10 @@ def display_result(*args)
   if player_name
     player_name.change_score
     puts "   #{args[0]} won!   ".center(50, '*')
-    puts "\n"
   else
     puts '  It\'s a draw!  '.center(50, '*')
-    puts "\n"
   end
+  puts "\n"
 end
 
 # Repeat movements
