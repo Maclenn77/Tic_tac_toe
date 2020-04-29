@@ -80,11 +80,16 @@ def valid_move(hash)
   move
 end
 
+# Repeat movements
 def loop_match(match, first, second)
-  while match.turn < 9
-    match.place_move(valid_move(match.hash), match.next_turn(first, second))
+  next_player = match.next_turn(first, second)
+  while !match.check_winner(next_player) && match.turn < 9 # Check if there's a winner or draw
+    match.add_turn
+    next_player = match.next_turn(first, second)
+    match.place_move(valid_move(match.hash), next_player)
     display_board(match.hash)
   end
+  match.result = next_player.name if match.check_winner(next_player)
 end
 
 puts "Welcome to the game! \n Player one, what\'s your name?"
@@ -103,16 +108,29 @@ change_name(boolean_name, second)
 
 puts "#{second.name} welcome aboard!"
 
-match = Match.new
-first_move = match.who_is_first?(first, second)
-
 puts "This is the board of the game, \n
 each square has an index number and it starts at 1 and ends at 9. \n
 Please write the index number to tell me where are you going to place your move."
-display_board(match.hash)
 
-puts "#{first_move.name}, start playing!"
-loop_match(match, first, second)
+keep_playing = 'y'
+matches = 0
+
+while keep_playing == 'y'
+  match = Match.new(matches + 1)
+  matches += 1
+  first_move = match.who_is_first?(first, second)
+  display_board(match.hash)
+  puts "#{first_move.name}, start playing!"
+  loop_match(match, first, second)
+  first.change_score if first.name == match.result
+  second.change_score if second.name == match.result
+  puts 'It\'s a draw!' if match.result == ''
+  puts "#{match.result} won!" if match.result != ''
+  puts 'Do you want to play again?'
+  puts '(y)es / (n)o'
+  keep_playing = gets.chomp
+  puts match.total_score(first, second, matches)
+end
 
 # match.place_move(valid_move(match.hash), match.next_turn(first, second))
 # display_board(match.hash)
