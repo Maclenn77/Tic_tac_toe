@@ -80,6 +80,13 @@ def valid_move(hash)
   move
 end
 
+def loop_match(match, first, second)
+  while match.turn < 9
+    match.place_move(valid_move(match.hash), match.next_turn(first, second))
+    display_board(match.hash)
+  end
+end
+
 puts "Welcome to the game! \n Player one, what\'s your name?"
 name = gets.chomp
 first = Player.new(name)
@@ -105,8 +112,11 @@ Please write the index number to tell me where are you going to place your move.
 display_board(match.hash)
 
 puts "#{first_move.name}, start playing!"
-match.place_move(valid_move(match.hash), first_move)
-display_board(match.hash)
+loop_match(match, first, second)
+
+# match.place_move(valid_move(match.hash), match.next_turn(first, second))
+# display_board(match.hash)
+
 
 =begin
 

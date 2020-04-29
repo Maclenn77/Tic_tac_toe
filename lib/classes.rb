@@ -1,5 +1,5 @@
 class Player
-  attr_accessor :name, :piece, :score
+  attr_accessor :name, :piece, :score  
 
   def initialize(name, piece = ' ', score = 0)
     @name = name
@@ -22,6 +22,7 @@ end
 
 class Match
   attr_accessor :hash
+  attr_reader :turn
 
   def initialize(matches = 0)
     @hash = { 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 9 }
@@ -51,28 +52,20 @@ class Match
     board_hash['row_three'].call(@hash)
   end
 
-  def place_move(move, player_one)
-    @hash[move] = player_one.piece
-    #display_board(board_hash)
+  def next_turn(*args)
+    @turn += 1
+    player_turn = args[0..1].detect { |a| a.piece == 'X' } if @turn.odd?
+    player_turn = args[0..1].detect { |a| a.piece == 'O' } if @turn.even?
+    player_turn
+    # check_winner(player_turn, player_next, puts_hash, board_hash) if @turn >= 5
+    # puts_hash['your_turn'].call(player_next.name) if @turn < 9
+    
+    # puts_hash['draw'].call
+    # keep_playing?(player_turn, player_next, puts_hash, board_hash)
   end
 
-  def next_turn(*args, puts_hash, board_hash)
-    @turn = 0
-    while @turn < 9
-      @turn += 1
-      if @turn.odd?
-        player_turn = args[0..-1].detect { |a| a.piece == 'X' }
-        player_next = args[0..-1].detect { |a| a.piece == 'O' }
-      else
-        player_turn = args[0..-1].detect { |a| a.piece == 'O' }
-        player_next = args[0..-1].detect { |a| a.piece == 'X' }
-      end
-      place_move(player_turn, puts_hash, board_hash)
-      check_winner(player_turn, player_next, puts_hash, board_hash) if @turn >= 5
-      puts_hash['your_turn'].call(player_next.name) if @turn < 9
-    end
-    puts_hash['draw'].call
-    keep_playing?(player_turn, player_next, puts_hash, board_hash)
+  def place_move(move, player_one)
+    @hash[move] = player_one.piece
   end
 
   def check_winner(player_turn, player_next, puts_hash, board_hash)
