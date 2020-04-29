@@ -81,7 +81,7 @@ change_name(boolean_name, second)
 
 puts "\n#{second.name} welcome aboard!\n"
 
-puts 'Instructions'.center(50, '#')
+puts '   Instructions   '.center(50, '#')
 puts 'This is the board of the game.'.center(50)
 puts "Each square has an index number from 1 to 9.\n"
 puts 'Please write the index number to tell me

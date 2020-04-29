@@ -49,7 +49,7 @@ class Match
 
   def total_score(player_one, player_two, matches)
     score = "    ###############################################\n
-    ### Total matches: #{matches} Total Score:\n
+    ### Total matches: #{matches}\n
     ###  #{player_one.name}: #{player_one.score}\n
     ###  #{player_two.name}: #{player_two.score}\n
     ################################################\n"
