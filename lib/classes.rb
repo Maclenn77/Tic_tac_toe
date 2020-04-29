@@ -1,7 +1,6 @@
 class Player
-  attr_accessor :name
-  attr_accessor :piece
-  attr_accessor :score
+  attr_accessor :name, :piece, :score
+
   def initialize(name, piece = ' ', score = 0)
     @name = name
     @score = score
@@ -22,7 +21,7 @@ class Player
 end
 
 class Match
-  SEPARATOR = '----------'.freeze
+  attr_accessor :hash
 
   def initialize(matches = 0)
     @hash = { 1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 9 }

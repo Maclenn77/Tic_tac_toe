@@ -48,37 +48,52 @@ def loop_game(name_one, name_two, hash)
 end
 =end
 
-def change_name(boolean_name, name)
+# Check if name is not empty. If not, ask to change name
+def change_name(boolean_name, player)
   until boolean_name
-    puts name.write_name
-    name = gets.chomp
-    boolean_name = name.valid_name(name)
+    puts player.write_name
+    player.name = gets.chomp
+    boolean_name = player.valid_name(player.name)
   end
-  name
+  player.name
+end
+
+def display_board(hash)
+  separator = '----------'
+  puts " #{hash[1]} | #{hash[2]} | #{hash[3]}"
+  puts separator
+  puts " #{hash[4]} | #{hash[5]} | #{hash[6]} "
+  puts separator
+  puts " #{hash[7]} | #{hash[8]} | #{hash[9]} "
 end
 
 puts "Welcome to the game! \n Player one, what\'s your name?"
 name = gets.chomp
 first = Player.new(name)
 boolean_name = first.valid_name(first.name)
-first.name = change_name(boolean_name, first)
+change_name(boolean_name, first) # If invalid name, request to change name
 
 puts "#{first.name} welcome aboard!"
 
+puts 'Player two, what\'s your name?'
 name = gets.chomp
 second = Player.new(name)
 boolean_name = second.valid_name(second.name)
-second.name = change_name(boolean_name, second)
+change_name(boolean_name, second)
 
 puts "#{second.name} welcome aboard!"
 
-=begin
-puts 'Player two, what\'s your name?'
-name_two = gets.chomp
-puts "#{name_two} welcome aboard!"
-
 match = Match.new
-match.who_is_first?(name_one, name_two)
+first_move = match.who_is_first?(first, second)
+puts "#{first_move}, start playing!"
+
+display_board(match.hash)
+
+
+
+=begin
+
+
 
 puts "#{name_one.name} would be the #{name_one.piece} and will make the first move"
 puts "#{name_two.name} would be the #{name_two.piece} and will make the second move"
