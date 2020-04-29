@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
-require_relative '../lib/classes'
+require_relative '../lib/player'
+require_relative '../lib/match'
 
 def change_name(boolean_name, player)
   until boolean_name
