@@ -12,22 +12,25 @@ def change_name(boolean_name, player)
 end
 
 def display_board(hash)
-  separator = '----------'
+  separator = '----------'.center(50)
   puts "\n"
-  puts " #{hash[1]} | #{hash[2]} | #{hash[3]}"
+  puts "#{hash[1]} | #{hash[2]} | #{hash[3]}".center(50)
   puts separator
-  puts " #{hash[4]} | #{hash[5]} | #{hash[6]} "
+  puts " #{hash[4]} | #{hash[5]} | #{hash[6]} ".center(50)
   puts separator
-  puts " #{hash[7]} | #{hash[8]} | #{hash[9]} "
+  puts " #{hash[7]} | #{hash[8]} | #{hash[9]} ".center(50)
   puts "\n"
 end
 
 def valid_move(hash)
   move = 0
   until ((1..9).include? move) && (hash.value? move)
-    puts 'Write a number between 1 and 9 or \'exit\' to leave.'
+    puts '>> Write a number between 1 and 9 or \'exit\' to leave.'
     move = gets.chomp
-    exit if move == 'exit'
+    if move == 'exit'
+      puts ' Bye-bye '.center(50, '*')
+      exit
+    end
     move = move.to_i
   end
   move
@@ -37,9 +40,11 @@ def display_result(*args)
   player_name = args[1..-1].detect { |x| x.name == args[0] }
   if player_name
     player_name.change_score
-    puts "#{args[0]} won!"
+    puts "   #{args[0]} won!   ".center(50, '*')
+    puts "\n"
   else
-    puts 'It\'s a draw!'
+    puts '  It\'s a draw!  '.center(50, '*')
+    puts "\n"
   end
 end
 
@@ -54,26 +59,34 @@ def loop_match(match, first, second)
   end
   match.result = next_player.name if match.check_winner(next_player)
 end
-
-puts "Welcome to the game! \n Player one, what\'s your name?"
+puts '#'.center(50, '#')
+puts '* Tic-tac-toe *'.center(50, ' ')
+puts "\n"
+puts 'by Rossiel Carranza and Juan Perez-Tejada'.center(50)
+puts '#'.center(50, '#') + "\n\n"
+puts 'Welcome to the game!'.center(50)
+puts "\n>> Player one, what\'s your name?"
 name = gets.chomp
 first = Player.new(name)
 boolean_name = first.valid_name(first.name)
 change_name(boolean_name, first) # If invalid name, request to change name
 
-puts "#{first.name} welcome aboard!"
+puts "\n#{first.name} welcome aboard!\n"
 
-puts 'Player two, what\'s your name?'
+puts "\n>> Player two, what\'s your name?"
 name = gets.chomp
 second = Player.new(name)
 boolean_name = second.valid_name(second.name)
 change_name(boolean_name, second)
 
-puts "#{second.name} welcome aboard!"
+puts "\n#{second.name} welcome aboard!\n"
 
-puts "This is the board of the game, \n
-each square has an index number and it starts at 1 and ends at 9. \n
-Please write the index number to tell me where are you going to place your move."
+puts 'Instructions'.center(50, '#')
+puts 'This is the board of the game.'.center(50)
+puts "Each square has an index number from 1 to 9.\n"
+puts 'Please write the index number to tell me
+where are you going to place your move.'
+puts '#'.center(50, '#')
 
 keep_playing = 'y'
 matches = 0
@@ -86,10 +99,10 @@ while keep_playing == 'y'
   puts "#{first_move.name}, start playing!"
   loop_match(match, first, second)
   display_result(match.result, first, second)
-  puts 'Do you want to play again?'
+  puts '>> Do you want to play again?'
   puts '(y)es / (n)o'
   keep_playing = gets.chomp
   puts match.total_score(first, second, matches)
 end
 
-puts 'See you later!'
+puts '  See you later!  '.center(50, '*')
