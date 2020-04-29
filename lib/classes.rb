@@ -35,11 +35,11 @@ class Match
     if select.zero?
       player_one.piece = value[0]
       player_two.piece = value[1]
-      player_one.name
+      player_one
     else
       player_one.piece = value[1]
       player_two.piece = value[0]
-      player_two.name
+      player_two
     end
   end
 
@@ -51,16 +51,9 @@ class Match
     board_hash['row_three'].call(@hash)
   end
 
-  def place_move(player_one, puts_hash, board_hash)
-    move = 0
-    until ((1..9).include? move) && (@hash.value? move)
-      puts_hash['another_num'].call
-      move = gets.chomp
-      exit if move == 'exit'
-      move = move.to_i
-    end
+  def place_move(move, player_one)
     @hash[move] = player_one.piece
-    display_board(board_hash)
+    #display_board(board_hash)
   end
 
   def next_turn(*args, puts_hash, board_hash)

@@ -60,11 +60,24 @@ end
 
 def display_board(hash)
   separator = '----------'
+  puts "\n"
   puts " #{hash[1]} | #{hash[2]} | #{hash[3]}"
   puts separator
   puts " #{hash[4]} | #{hash[5]} | #{hash[6]} "
   puts separator
   puts " #{hash[7]} | #{hash[8]} | #{hash[9]} "
+  puts "\n"
+end
+
+def valid_move(hash)
+  move = 0
+  until ((1..9).include? move) && (hash.value? move)
+    puts 'Write a number between 1 and 9 or \'exit\' to leave.'
+    move = gets.chomp
+    exit if move == 'exit'
+    move = move.to_i
+  end
+  move
 end
 
 puts "Welcome to the game! \n Player one, what\'s your name?"
@@ -85,15 +98,17 @@ puts "#{second.name} welcome aboard!"
 
 match = Match.new
 first_move = match.who_is_first?(first, second)
-puts "#{first_move}, start playing!"
 
+puts "This is the board of the game, \n
+each square has an index number and it starts at 1 and ends at 9. \n
+Please write the index number to tell me where are you going to place your move."
 display_board(match.hash)
 
-
+puts "#{first_move.name}, start playing!"
+match.place_move(valid_move(match.hash), first_move)
+display_board(match.hash)
 
 =begin
-
-
 
 puts "#{name_one.name} would be the #{name_one.piece} and will make the first move"
 puts "#{name_two.name} would be the #{name_two.piece} and will make the second move"
