@@ -45,14 +45,6 @@ class Match
     end
   end
 
-  def display_board(board_hash)
-    board_hash['row_one'].call(@hash)
-    board_hash['separator'].call(SEPARATOR)
-    board_hash['row_two'].call(@hash)
-    board_hash['separator'].call(SEPARATOR)
-    board_hash['row_three'].call(@hash)
-  end
-
   def next_turn(*args)
     player_turn = args[0..1].detect { |a| a.piece == 'X' } if @turn.odd?
     player_turn = args[0..1].detect { |a| a.piece == 'O' } if @turn.even?
@@ -77,42 +69,10 @@ class Match
     winner
   end
 
-  # def keep_playing?(player_one, player_two, puts_hash, board_hash)
-  #   condition = false
-  #   puts_hash['play_again'].call
-  #   choice = gets.chomp
-  #   until condition
-  #     if choice == 'y'
-  #       condition = true
-  #       restart_match(player_one, player_two, puts_hash, board_hash)
-  #     elsif choice == 'n'
-  #       puts_hash['exit_match'].call
-  #       total_score(player_one, player_two)
-  #       exit
-  #     else
-  #       puts_hash['valid_op'].call
-  #       choice = gets.chomp
-  #     end
-  #   end
-  # end
-
   def total_score(player_one, player_two, matches)
     score = "Total matches: #{matches} Total Score:\n
           #{player_one.name}: #{player_one.score}\n
           #{player_two.name}: #{player_two.score}"
     score
-  end
-
-  def restart_match(player_one, player_two, puts_hash, board_hash)
-    if @matches.positive?
-      total_score(player_one, player_two, @matches)
-      puts_hash['yes_play'].call
-    end
-    matches = @matches + 1
-    match = Match.new(matches)
-    first = match.who_is_first?(player_one, player_two)
-    puts_hash['first_move'].call(first)
-    match.display_board(board_hash)
-    match.next_turn(player_one, player_two, puts_hash, board_hash)
   end
 end
