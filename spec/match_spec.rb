@@ -15,19 +15,22 @@ describe Match do
     end
   end
 
-=begin
   describe '#next_turn' do
     it 'returns the player with the piece \'X\' if turn is odd' do
-    consider ->  match.who_is_first?(players...)
-
-no setting piece  ->    expect(match.next_turn(player_one, player_two)).to eql(player_one)
+      match.add_turn
+      player_one.piece = 'X'
+      player_two.piece = 'O'
+      expect(match.next_turn(player_one, player_two)).to eql(player_one)
     end
 
     it 'returns the player with the piece \'O\' if turn is even' do
+      match.add_turn
+      match.add_turn
+      player_one.piece = 'X'
+      player_two.piece = 'O'
       expect(match.next_turn(player_one, player_two)).to eql(player_two)
     end
   end
-=end
 
   describe '#add_turn' do
     it 'inscrements the value of turn by 1' do
@@ -55,6 +58,12 @@ no setting piece  ->    expect(match.next_turn(player_one, player_two)).to eql(p
       match.place_move(4, player_one)
       match.place_move(7, player_one)
       expect(match.check_winner(player_one)).to eql(true)
+    end
+  end
+
+  describe '#total_score' do
+    it 'returns the score' do
+      expect(match.total_score(player_one, player_two, :matches)).to be_an_instance_of(String)
     end
   end
 end
