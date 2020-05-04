@@ -18,4 +18,10 @@ describe Player do
       expect(player.write_name).to be_an_instance_of(String)
     end
   end
+
+  describe '#change_score' do
+    it 'Change winner\'s score' do
+      expect { player.change_score }.to change { player.score }.from(0).to(1)
+    end
+  end
 end
