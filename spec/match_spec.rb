@@ -45,12 +45,12 @@ describe Match do
   end
 
   describe '#check_winner' do
-    it 'returns false when there\'s not a winner' do
+    it 'doesn\'t return true if there\'s isn\'t a winner' do
       match.place_move(1, player_two)
       match.place_move(2, player_one)
       match.place_move(9, player_two)
       match.place_move(4, player_one)
-      expect(match.check_winner(player_one)).to eql(false)
+      expect(match.check_winner(player_one)).not_to eql(true)
     end
 
     it 'returns true when there\'s a winner' do

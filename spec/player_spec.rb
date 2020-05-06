@@ -8,8 +8,8 @@ describe Player do
       expect(player.valid_name('Jerry')).to eql(true)
     end
 
-    it 'returns false if the length of the player\'s name is less than 1' do
-      expect(player.valid_name('')).to eql(false)
+    it 'doesn\'t return true if the length of the player\'s name is less than 1' do
+      expect(player.valid_name('')).not_to eql(true)
     end
   end
 
