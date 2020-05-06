@@ -1,4 +1,4 @@
-require './lib/player'
+require_relative '../lib/player'
 
 describe Player do
   subject(:player) { Player.new('Bob') }

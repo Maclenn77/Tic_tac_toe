@@ -1,4 +1,4 @@
-require './lib/match'
+require_relative '../lib/match'
 
 describe Match do
   subject(:match) { Match.new }
